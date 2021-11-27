@@ -1,32 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+import BoardContext from '../../+store/board-context';
 
 import { BoardChoseColor } from '../../services/boardView.service';
-import { initList } from '../../services/table.service';
 
 import './tableBoard.css';
 
 const TableBoard = (props) => {
-  const [boardList, setBoardList] = useState([]);
-
-  useEffect(() => {
-    let list = initList(boardList);
-    setBoardList((prevState) => {
-      return [...prevState, list];
-    });
-    // console.log('object');
-    // console.log(boardList[4][4].id);
-    // console.log(getOffset(boardList[5][5].id));
-  }, []);
+  const ctx = useContext(BoardContext);
+  const showText = () => {
+    ctx.changeCase(4, 4);
+  };
 
   return (
     <React.Fragment>
       <table>
         <tbody>
-          {boardList.map((itemOut, index) => {
+          {ctx.board.map((itemOut, index) => {
             if (index < 15) {
               return (
                 <tr key={index * 10}>
-                  {boardList[index].map((itemIn) => {
+                  {ctx.board[index].map((itemIn) => {
                     return BoardChoseColor(itemIn, props.BoardColor);
                   })}
                 </tr>
@@ -35,6 +28,7 @@ const TableBoard = (props) => {
           })}
         </tbody>
       </table>
+      <button onClick={showText}>onClick</button>
     </React.Fragment>
   );
 };
